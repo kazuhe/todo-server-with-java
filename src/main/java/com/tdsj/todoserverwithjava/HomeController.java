@@ -48,4 +48,33 @@ public class HomeController {
         model.addAttribute("taskList", taskItems);
         return "home";
     }
+
+    /**
+     * タスクを削除する
+     * @param id タスク ID
+     * @return html
+     */
+    @GetMapping("/delete")
+    String deleteItem(@RequestParam("id") String id) {
+        dao.delete(id);
+        return "redirect:/list";
+    }
+
+    /**
+     * タスクを更新する
+     * @param id タスク ID
+     * @param task タスク内容
+     * @param deadline 期限
+     * @param done 完了状態
+     * @return html
+     */
+    @GetMapping("/update")
+    String updateItem(@RequestParam("id") String id,
+                      @RequestParam("task") String task,
+                      @RequestParam("deadline") String deadline,
+                      @RequestParam("done") boolean done) {
+        TaskItem taskItem = new TaskItem(id, task, deadline, done);
+        dao.update(taskItem);
+        return "redirect:/list";
+    }
 }
